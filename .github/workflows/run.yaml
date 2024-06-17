@@ -12,19 +12,26 @@ jobs:
         with:
           node-version: '20'
       - uses: actions/checkout@v3
-      - name: train model
-        env: 
-          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install dependencies
         run: |
           pip install -r requirements.txt
+      - name: Train model
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
           python train_model.py
 
+          # Generate report
           echo "RF and LR Model Score" > report.md
           cat scores.txt >> report.md
           
           echo "Confusion Matrix & Feature Importance" > report1.md
           echo '![](./ConfusionMatrix.png "ConfusionMatrix")' >> report1.md
-          echo '![](./FeatureImportance.png "FeatureImportance")' >> report1.md
+          echo '![](./FeatureImportace.png "FeatureImportace")' >> report1.md
 
           cat report.md report1.md > combined_file.md
+          
+          # Publish the report using CML
+          cml publish ConfusionMatrix.png --md >> combined_file.md
+          cml publish FeatureImportace.png --md >> combined_file.md
           cml comment create combined_file.md
