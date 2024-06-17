@@ -30,8 +30,6 @@ jobs:
           echo '![](./FeatureImportace.png "FeatureImportace")' >> report1.md
 
           cat report.md report1.md > combined_file.md
-          
-          # Publish the report using CML
-          cml publish ConfusionMatrix.png --md >> combined_file.md
-          cml publish FeatureImportace.png --md >> combined_file.md
-          cml comment create combined_file.md
+
+          # Create CML comment with images inline
+          cml comment create combined_file.md --publish ConfusionMatrix.png --publish FeatureImportace.png
