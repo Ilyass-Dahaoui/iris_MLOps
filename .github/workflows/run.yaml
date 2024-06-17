@@ -14,9 +14,6 @@ jobs:
     
     steps:
     - uses: iterative/setup-cml@v1
-      with:
-        repo-token: ${{ toJson(idToken) }}
-        
     - uses: actions/checkout@v3
     
     - name: Set up Python
